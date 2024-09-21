@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int data;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *      TreeNode(int val) : data(val) , left(nullptr) , right(nullptr) {}
+ * };
+ **/
+
+class Solution
+{
+public:
+    vector<int> preorder(TreeNode *root)
+    {
+        // your code goes here
+        vector<int> preorder;
+        TreeNode *curr = root;
+        while (curr)
+        {
+            if (!curr->left)
+            {
+                preorder.push_back(curr->data);
+                curr = curr->right;
+            }
+            else
+            {
+                TreeNode *currsLeft = curr->left;
+                while (currsLeft->right && currsLeft->right != curr)
+                {
+                    currsLeft = currsLeft->right;
+                }
+
+                // Thread is not there, make a thread
+                if (currsLeft->right == NULL)
+                {
+                    currsLeft->right = curr;
+                    preorder.push_back(curr->data);
+                    curr = curr->left;
+                }
+                else // Thread is already there, remove it and move to right
+                {
+                    currsLeft->right = NULL;
+                    curr = curr->right;
+                }
+            }
+        }
+        return preorder;
+    }
+};
