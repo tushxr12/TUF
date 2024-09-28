@@ -11,48 +11,54 @@
 class Solution
 {
 private:
-    int findSuccessor(TreeNode *root, int key)
+    void traverse(TreeNode *node, int key, int &predecessor, int &successor)
     {
-        int succ = -1;
-        while (root)
+        if (node == nullptr)
         {
-            if (root->data > key)
-            {
-                succ = root->data;
-                root = root->right;
-            }
-            else
-            {
-                root = root->right;
-            }
+            return;
         }
-        return succ;
-    }
 
-    int findPredecessor(TreeNode *root, int key)
-    {
-        int pred = -1;
-        while (root)
+        if (node->data < key)
         {
-            if (root->data < key)
+            predecessor = max(predecessor, node->data);
+            traverse(node->right, key, predecessor, successor);
+        }
+        else if (node->data > key)
+        {
+            successor = min(successor, node->data);
+            traverse(node->left, key, predecessor, successor);
+        }
+        else
+        {
+            if (node->left != nullptr)
             {
-                pred = root->data;
-                root = root->right;
+                TreeNode *temp = node->left;
+                while (temp->right != nullptr)
+                {
+                    temp = temp->right;
+                }
+                predecessor = temp->data;
             }
-            else
+
+            if (node->right != nullptr)
             {
-                root = root->left;
+                TreeNode *temp = node->right;
+                while (temp->left != nullptr)
+                {
+                    temp = temp->left;
+                }
+                successor = temp->data;
             }
         }
-        return pred;
     }
 
 public:
     vector<int> succPredBST(TreeNode *root, int key)
     {
-        // your code goes here
-        int succ = findSuccessor(root, key);
-        int pred = findPredecessor(root, key);
-        return {pred, succ};
+        int predecessor = -1;
+        int successor = numeric_limits<int>::max();
+
+        traverse(root, key, predecessor, successor);
+        return {predecessor == -1 ? -1 : predecessor, successor == numeric_limits<int>::max() ? -1 : successor};
     }
 };
