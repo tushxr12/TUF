@@ -24,7 +24,6 @@ private:
 public:
     bool twoSumBST(TreeNode *root, int k)
     {
-        // your code goes here
         vector<int> v;
         inorder(root, v);
         int i = 0, j = v.size() - 1;
