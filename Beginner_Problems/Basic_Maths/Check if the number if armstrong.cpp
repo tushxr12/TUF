@@ -1,16 +1,20 @@
 class Solution {
+private:
+    int countDigit(int n) {
+        int count = log10(n) + 1;
+        return count;
+    }
 public:
     bool isArmstrong(int n) {
-        int orig = n;
-
-        int sumOfDigits = 0;
-        while(n)
-        {
-            int lastDigit = n%10;
-            sumOfDigits += pow(lastDigit,3);
-            n /= 10;
+        int count = countDigit(n);
+        int sum = 0;
+        int copy = n;
+        while(n > 0){
+            int lastDigit = n % 10;
+            sum += pow(lastDigit, count); 
+            n = n / 10;
         }
-
-        return (sumOfDigits == orig);
+        if(sum == copy) return true;
+        return false;
     }
 };
