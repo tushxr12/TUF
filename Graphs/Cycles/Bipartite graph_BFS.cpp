@@ -36,11 +36,11 @@ public:
         for(int i = 0;i < V;i++)
         {
             if(color[i] == -1)
-                if(check(i, V, adj, color))
+                if(check(i, V, adj, color) == false)
                 {
-                    return true;
+                    return false;
                 }
         }
-        return false;
+        return true;
     }
 };
