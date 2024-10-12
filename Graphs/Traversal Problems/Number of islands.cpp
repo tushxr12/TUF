@@ -7,7 +7,6 @@ private:
         vis[row][col] = 1;
         queue<pair<int,int>> q;
         q.push({row,col});
-
         while(!q.empty())
         {
             int row = q.front().first;
