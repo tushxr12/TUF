@@ -1,3 +1,4 @@
+//Memoization
 class Solution {
 private:
     int f(int ind, vector<int> &heights, vector<int> &dp)
@@ -23,5 +24,25 @@ public:
         int n = heights.size();
         vector<int> dp(n + 1,-1);
         return f(n - 1, heights, dp);
+    }
+};
+
+//Tabulation
+class Solution {
+public:
+    int frogJump(vector<int>& heights) {
+        int n = heights.size();
+        vector<int> dp(n + 1,-1);
+        dp[0] = 0;
+        for(int i = 1;i < n;i++)
+        {
+            int firstStep = dp[i - 1] + abs(heights[i] - heights[i - 1]);
+            int secondStep = INT_MAX;
+            if(i > 1)
+                secondStep = dp[i - 2] + abs(heights[i] - heights[i - 2]);
+
+            dp[i] = min(firstStep, secondStep);
+        }
+        return dp[n - 1];
     }
 };
