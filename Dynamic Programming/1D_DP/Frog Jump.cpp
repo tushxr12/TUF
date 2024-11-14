@@ -46,3 +46,24 @@ public:
         return dp[n - 1];
     }
 };
+
+//Space Optimized Approach
+class Solution {
+public:
+    int frogJump(vector<int>& heights) {
+        int n = heights.size();
+        int prev1 = 0, prev2= 0;
+        for(int i = 1;i < n;i++)
+        {
+            int firstStep = prev1 + abs(heights[i] - heights[i - 1]);
+            int secondStep = INT_MAX;
+            if(i > 1)
+                secondStep = prev2 + abs(heights[i] - heights[i - 2]);
+
+            int curr = min(firstStep, secondStep);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
+};
