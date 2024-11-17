@@ -110,7 +110,7 @@ public:
     }
 };
 
-//Space Optimized Approach - Test
+//Space Optimized Approach
 class Solution {
 public:
     int ninjaTraining(vector<vector<int>>& matrix) {
