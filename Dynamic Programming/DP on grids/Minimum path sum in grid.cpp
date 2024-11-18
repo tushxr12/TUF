@@ -60,3 +60,43 @@ public:
         return mini;
     }
 };
+
+//Tabulation
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int mini =INT_MAX;
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+        
+        //Base case
+        for(int i = 0;i < m;i++)
+        {
+            dp[0][i] = matrix[0][i]; 
+        }
+
+        for(int i = 1;i < n;i++)
+        {
+            for(int j = 0;j < m;j++)
+            {
+                int up = INT_MAX, leftDiagonal = INT_MAX, rightDiagonal = INT_MAX;
+                if(i > 0)
+                    up = matrix[i][j] + dp[i- 1][j];
+                if(i > 0 && j > 0)
+                    leftDiagonal = matrix[i][j] + dp[i - 1][j - 1];
+                if(i > 0 && j < m - 1)
+                    rightDiagonal = matrix[i][j] + dp[i - 1][j + 1];
+                
+                dp[i][j] = min({up, leftDiagonal, rightDiagonal});
+            }
+        }
+
+        for(int j = 0;j < m;j++)
+        {
+            int ans = dp[n - 1][j];
+            mini = min(mini, ans);
+        }
+        return mini;
+    }
+};
