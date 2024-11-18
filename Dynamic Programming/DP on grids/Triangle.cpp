@@ -73,3 +73,31 @@ public:
         return dp[0][0];
     }
 };
+
+//Space Optimization
+class Solution {
+public:
+    int minTriangleSum(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<int> front(n,-1);
+
+        for(int j = 0;j < n;j++)
+        {
+            front[j] = triangle[n - 1][j];
+        }
+
+        for(int i = n - 2;i >= 0;i--)
+        {
+            vector<int> temp(n,0);
+            for(int j = i;j >= 0;j--)
+            {
+                int down = triangle[i][j] +front[j];
+                int rightDiagonal = triangle[i][j] + front[j + 1];
+
+                temp[j] = min(down, rightDiagonal);
+            }
+            front = temp;
+        }
+        return front[0];
+    }
+};
