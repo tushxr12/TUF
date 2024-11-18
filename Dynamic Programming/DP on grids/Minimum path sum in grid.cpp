@@ -100,3 +100,44 @@ public:
         return mini;
     }
 };
+
+//Space Optimized
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int mini =INT_MAX;
+        vector<int> prev(m,-1);
+        
+        //Base case
+        for(int i = 0;i < m;i++)
+        {
+            prev[i] = matrix[0][i]; 
+        }
+        vector<int> temp(m, 0);
+        for(int i = 1;i < n;i++)
+        {
+            for(int j = 0;j < m;j++)
+            {
+                int up = INT_MAX, leftDiagonal = INT_MAX, rightDiagonal = INT_MAX;
+                if(i > 0)
+                    up = matrix[i][j] + prev[j];
+                if(i > 0 && j > 0)
+                    leftDiagonal = matrix[i][j] + prev[j - 1];
+                if(i > 0 && j < m - 1)
+                    rightDiagonal = matrix[i][j] + prev[j + 1];
+                
+                temp[j] = min({up, leftDiagonal, rightDiagonal});
+            }
+            prev = temp;
+        }
+
+        for(int j = 0;j < m;j++)
+        {
+            int ans = prev[j];
+            mini = min(mini, ans);
+        }
+        return mini;
+    }
+};
