@@ -70,3 +70,31 @@ public:
         return dp[0][1];
     }
 };
+
+//Space optimization
+class Solution{
+public:
+    int stockBuySell(vector<int> arr, int n, int fee){
+        vector<int> front(2,0);
+        vector<int> curr(2,0);
+        for(int ind = n- 1; ind >= 0;ind--)
+        {
+            for(int buy = 0; buy < 2;buy++)
+            {
+                if(buy == 1)
+                {
+                    //Buy
+                    curr[buy] =  max(-arr[ind] + front[0] , 0 + front[1]);
+                }
+                else
+                {
+                    //Sell
+                    curr[buy] = max(arr[ind] - fee + front[1], 0 + front[0]);
+                }
+            }
+            front = curr;
+        }
+
+        return front[1];
+    }
+};
