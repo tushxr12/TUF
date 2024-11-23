@@ -47,3 +47,29 @@ public:
         return f(0,0,n,k,arr,dp);
     }
 };
+
+//Tabulation
+class Solution{
+public:
+    int stockBuySell(vector<int> arr, int n, int k){
+        vector<vector<int>> dp(n + 1, vector<int>(2*k + 1, 0));
+
+        for(int ind = n - 1; ind >= 0;ind--)
+        {
+            for(int tranNo = 2*k - 1; tranNo >= 0;tranNo--)
+            {
+                //Buy
+                if(tranNo % 2 == 0)
+                {
+                    dp[ind][tranNo] = max(-arr[ind] + dp[ind + 1][tranNo + 1] , 0 + dp[ind + 1][tranNo]);
+                }
+                else
+                {
+                    //Sell
+                    dp[ind][tranNo] = max(arr[ind] + dp[ind + 1][tranNo + 1] , 0 + dp[ind + 1][tranNo]);
+                } 
+            }
+        }
+        return dp[0][0];
+    }
+};
