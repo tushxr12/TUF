@@ -43,3 +43,30 @@ public:
         return f(0,1,fee,n,arr,dp);
     }
 };
+
+//Add tabulation
+class Solution{
+public:
+    int stockBuySell(vector<int> arr, int n, int fee){
+        vector<vector<int>> dp(n + 1, vector<int>(2,0));
+
+        for(int ind = n- 1; ind >= 0;ind--)
+        {
+            for(int buy = 0; buy < 2;buy++)
+            {
+                if(buy == 1)
+                {
+                    //Buy
+                    dp[ind][buy] =  max(-arr[ind] + dp[ind + 1][0] , 0 + dp[ind + 1][1]);
+                }
+                else
+                {
+                    //Sell
+                    dp[ind][buy] = max(arr[ind] - fee + dp[ind + 1][1], 0 + dp[ind + 1][0]);
+                }
+            }
+        }
+
+        return dp[0][1];
+    }
+};
