@@ -19,3 +19,27 @@ public:
         return f(0,1,fee,n,arr);
     }
 };
+
+//Memoization
+class Solution{
+private:
+    int f(int ind,int buy,int fee,int n, vector<int> &arr, vector<vector<int>> &dp)
+    {
+        if(ind == n)
+            return 0;
+        if(dp[ind][buy] != -1)
+            return dp[ind][buy];
+        if(buy == 1)
+        {
+            return dp[ind][buy] =  max(-arr[ind] + f(ind + 1,0,fee,n,arr,dp) , 0 + f(ind + 1,1,fee,n,arr,dp));
+        }
+
+        //Sell
+        return dp[ind][buy] = max(arr[ind] - fee + f(ind + 1,1,fee,n,arr,dp), 0 + f(ind + 1,0,fee,n,arr,dp));
+    }   
+public:
+    int stockBuySell(vector<int> arr, int n, int fee){
+        vector<vector<int>> dp(n + 1, vector<int>(2,-1));
+        return f(0,1,fee,n,arr,dp);
+    }
+};
