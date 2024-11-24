@@ -62,3 +62,40 @@ public:
         return f(n - 1, totalSum/2, arr, dp);
     }
 };
+
+//Tabulation
+class Solution{
+public:
+    bool equalPartition(int n, vector<int> arr) {
+        int totalSum = 0;
+        for(auto i : arr)
+            totalSum += i;
+        
+        if(totalSum % 2)
+            return false;
+
+        vector<vector<bool>> dp(n, vector<bool>(totalSum/2 + 1, 0));
+
+        for(int ind = 0; ind < n;ind++)
+        {
+            dp[ind][0] = true;
+        }
+
+        dp[0][arr[0]] = true;
+
+        for(int ind = 1; ind < n;ind++)
+        {
+            for(int target = 0; target <= totalSum/2; target++)
+            {
+                bool notPick = dp[ind - 1][target];
+
+                bool pick = false;
+                if(target >= arr[ind])
+                    pick = dp[ind - 1][target - arr[ind]];
+                dp[ind][target] = (pick || notPick);
+            }
+        }
+        
+        return dp[n - 1][totalSum/2];
+    }
+};
