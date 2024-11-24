@@ -86,3 +86,32 @@ public:
         return dp[n-1][t];
     }
 };
+
+//Space optimization
+class Solution{  
+public:
+    bool isSubsetSum(vector<int>arr, int t){
+        int n = arr.size();
+       vector<bool> prev(t + 1,0), curr(t + 1,0);
+
+        prev[0] = curr[0] = true;
+
+        prev[arr[0]] = true;
+
+        for(int ind = 1; ind < n;ind++)
+        {
+            for(int target = 1; target <= t;target++)
+            {
+                bool notTake = prev[target];
+                bool take = false;
+                if(target >= arr[ind]){
+                    take = prev[target - arr[ind]];
+                }
+                curr[target] = (take || notTake);
+            }
+            prev = curr;
+        }
+
+        return prev[t];
+    }
+};
