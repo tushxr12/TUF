@@ -99,3 +99,37 @@ public:
         return dp[n - 1][totalSum/2];
     }
 };
+
+//Space optimization
+class Solution{
+public:
+    bool equalPartition(int n, vector<int> arr) {
+        int totalSum = 0;
+        for(auto i : arr)
+            totalSum += i;
+        
+        if(totalSum % 2)
+            return false;
+
+        vector<bool> prev(totalSum/2 + 1, 0), curr(totalSum/2 + 1, 0);
+        prev[0] = curr[0] = true;
+
+        prev[arr[0]] = true;
+
+        for(int ind = 1; ind < n;ind++)
+        {
+            for(int target = 0; target <= totalSum/2; target++)
+            {
+                bool notPick = prev[target];
+
+                bool pick = false;
+                if(target >= arr[ind])
+                    pick = prev[target - arr[ind]];
+                curr[target] = (pick || notPick);
+            }
+            prev = curr;
+        }
+        
+        return prev[totalSum/2];
+    }
+};
