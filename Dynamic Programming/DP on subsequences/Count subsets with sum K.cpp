@@ -74,3 +74,30 @@ class Solution{
 		return dp[arr.size() - 1][K];
 	}
 };
+
+//Space optimization
+class Solution{
+	int modulo = 1e9+7;
+	public:
+	int perfectSum(vector<int>&arr, int K){
+		vector<int> prev(K + 1, 0), curr(K + 1,0);
+		prev[0] = 1;
+		if(K >= arr[0])
+			prev[arr[0]] = 1;
+		curr[0] = 1;
+
+		for(int ind = 1;ind < arr.size();ind++)
+		{
+			for(int k = 1; k <= K;k++)
+			{
+				int notPick = prev[k];
+				int pick = 0;
+				if(k >= arr[ind])
+					pick = prev[k - arr[ind]];
+				curr[k] = (pick + notPick)%modulo;
+			}
+			prev = curr;
+		}
+		return prev[K];
+	}
+};
