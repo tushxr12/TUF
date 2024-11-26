@@ -114,3 +114,46 @@ class Solution {
         return dp[n -1][reqSum];
     }
 };
+
+//Space optimization
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+  int modulo = 1e9 + 7;
+  public:
+  int countPartitions(int n, int diff, vector<int>& arr) {
+        int totalSum = 0;
+        for(auto i : arr){
+          totalSum += i;
+        }
+        if(totalSum - diff < 0 || (totalSum - diff) %2){
+          return 0;
+        }
+        int reqSum = (totalSum - diff)/2;
+        vector<int> prev(reqSum + 1,0) , curr(reqSum + 1,0);
+
+        prev[0] = 1;
+
+        if(reqSum >= arr[0])
+          prev[arr[0]] = 1;
+
+        curr[0] = 1;
+
+        for(int ind = 1; ind < n;ind++)
+        {
+          for(int k = 1;k <= reqSum;k++)
+          {
+              int notPick = prev[k];
+
+              int pick = 0;
+              if(k >= arr[ind])
+                pick = prev[k - arr[ind]];
+              
+              curr[k] =  (pick + notPick)%modulo;
+          }
+          prev = curr;
+        }
+        return prev[reqSum];
+    }
+};
