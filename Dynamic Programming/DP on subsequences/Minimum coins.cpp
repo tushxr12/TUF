@@ -94,3 +94,38 @@ class Solution{
 		return dp[n - 1][amountt];
     }
 };
+
+//Space optimization
+class Solution{
+	public:
+	int MinimumCoins(vector<int>& coins, int amountt) {
+		int n = coins.size();
+		vector<int> prev(amountt + 1,0), curr(amountt + 1,0);
+
+		for(int i = 0;i <= amountt;i++)
+		{
+			if(i%coins[0] == 0)
+				prev[i] = (i/coins[0]);
+			else
+				prev[i] = 1e9;
+		}
+
+		for(int ind = 1;ind < n;ind++)
+		{
+			for(int amount = 0; amount <= amountt;amount++)
+			{
+				int notPick = prev[amount];
+				int pick = INT_MAX;
+				if(amount >= coins[ind]){
+					pick = 1 + curr[amount - coins[ind]];
+				}
+				curr[amount] = min(pick, notPick);
+			}
+			prev = curr;
+		}
+
+		if(prev[amountt] >= 1e9)
+			return -1;
+		return prev[amountt];
+    }
+};
