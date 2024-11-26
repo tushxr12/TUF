@@ -60,3 +60,37 @@ class Solution{
 		return f(coins.size() - 1, amount, coins, dp);
     }
 };
+
+//Tabulation
+class Solution{
+	public:
+	int MinimumCoins(vector<int>& coins, int amountt) {
+		int n = coins.size();
+		vector<vector<int>> dp(n, vector<int>(amountt + 1,0));
+
+		for(int i = 0;i <= amountt;i++)
+		{
+			if(i%coins[0] == 0)
+				dp[0][i] = (i/coins[0]);
+			else
+				dp[0][i] = 1e9;
+		}
+
+		for(int ind = 1;ind < n;ind++)
+		{
+			for(int amount = 0; amount <= amountt;amount++)
+			{
+				int notPick = dp[ind - 1][amount];
+				int pick = INT_MAX;
+				if(amount >= coins[ind]){
+					pick = 1 + dp[ind][amount - coins[ind]];
+				}
+				dp[ind][amount] = min(pick, notPick);
+			}
+		}
+
+		if(dp[n - 1][amountt] >= 1e9)
+			return -1;
+		return dp[n - 1][amountt];
+    }
+};
