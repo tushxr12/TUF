@@ -91,3 +91,36 @@ class Solution
         return dp[n - 1][W];
     }
 };
+
+//Space optmization
+class Solution
+{
+    public:
+    int knapsack01(vector<int>& wt, vector<int>& val, int n, int W) {
+        vector<int> curr(W + 1,0), prev(W + 1,0);
+
+        for(int i = wt[0]; i<=W;i++)
+        {
+            prev[i] = val[0];
+        }
+
+        for(int ind = 1;ind < n;ind++)
+        {
+            for(int w=0; w<=W;w++)
+            {
+                int notTake = prev[w];
+                int take = INT_MIN;
+
+                if(wt[ind] <= w)
+                {
+                    take = val[ind] + prev[w - wt[ind]];
+                }
+
+                curr[w] = max(take, notTake);
+            }
+            prev = curr;
+        }
+
+        return prev[W];
+    }
+};
