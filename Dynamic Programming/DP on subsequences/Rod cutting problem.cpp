@@ -49,3 +49,31 @@ class Solution{
       return f(n - 1,n,price,dp);
     }
 };
+
+//Space optimization
+class Solution{
+  public:
+    int rodCutting(vector<int> price, int N) {
+      vector<vector<int>> dp(N, vector<int>(N + 1,0));
+
+      for(int ind = 0; ind <= N;ind++)
+      {
+        dp[0][ind] = ind*price[0];
+      }
+
+      for(int ind = 1;ind < N;ind++)
+      {
+        for(int n = 1; n <= N;n++)
+        {
+            int notTake = dp[ind - 1][n];
+            int take = INT_MIN;
+            int rodLength = ind + 1;
+            if(rodLength <= n){
+              take = price[ind] + dp[ind][n - rodLength];
+            }
+            dp[ind][n] = max(take, notTake);
+        }
+      }
+      return dp[N - 1][N];
+    }
+};
