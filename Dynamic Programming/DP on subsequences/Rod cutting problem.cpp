@@ -77,3 +77,32 @@ class Solution{
       return dp[N - 1][N];
     }
 };
+
+//Space optimization
+class Solution{
+  public:
+    int rodCutting(vector<int> price, int N) {
+      vector<int> curr(N + 1,0), prev(N + 1,0);
+
+      for(int ind = 0; ind <= N;ind++)
+      {
+        prev[ind] = ind*price[0];
+      }
+
+      for(int ind = 1;ind < N;ind++)
+      {
+        for(int n = 1; n <= N;n++)
+        {
+            int notTake = prev[n];
+            int take = INT_MIN;
+            int rodLength = ind + 1;
+            if(rodLength <= n){
+              take = price[ind] + curr[n - rodLength];
+            }
+            curr[n] = max(take, notTake);
+        }
+        prev = curr;
+      }
+      return prev[N];
+    }
+};
