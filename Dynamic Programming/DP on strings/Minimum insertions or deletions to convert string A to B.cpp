@@ -95,3 +95,38 @@ class Solution{
 		return (n + m - 2*lcss);
 	} 
 };
+
+//Space optimization
+class Solution{
+	private:
+	int lcs(string s1, string s2) {
+		int n1 = s1.size(), n2 = s2.size();
+		vector<int> curr(n2 + 1, 0), prev(n2 + 1,0);
+
+		for(int ind2 = 0;ind2 <= n2;ind2++){
+			prev[ind2] = 0;
+		}
+
+		for(int ind1 = 1;ind1 <= n1;ind1++)
+		{
+			for(int ind2 = 1;ind2 <= n2;ind2++)
+			{
+			if(s1[ind1 - 1] == s2[ind2 - 1])
+			{
+				curr[ind2] = 1 + prev[ind2 - 1];
+			}
+			else
+				curr[ind2] = max(prev[ind2], curr[ind2 - 1]);
+			}
+			prev = curr;
+		}
+
+		return prev[n2];
+    }
+	public:
+	int minOperations(string str1, string str2) { 
+	    int n = str1.size() , m = str2.size();
+		int lcss = lcs(str1, str2);
+		return (n + m - 2*lcss);
+	} 
+};
