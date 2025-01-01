@@ -15,7 +15,7 @@ private:
 
                 nse = i;
                 pse = st.empty() ? -1 : st.top();
-                area = heights[i] * (nse - pse - 1);
+                area = heights[ind] * (nse - pse - 1);
                 maxArea = max(maxArea, area);
             }
 
