@@ -44,3 +44,72 @@ public:
         return NULL;
     }
 };
+
+//Better
+/*
+Definition of singly linked list:
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode()
+    {
+        val = 0;
+        next = NULL;
+    }
+    ListNode(int data1)
+    {
+        val = data1;
+        next = NULL;
+    }
+    ListNode(int data1, ListNode *next1)
+    {
+        val = data1;
+        next = next1;
+    }
+};
+*/
+
+class Solution {
+private:
+    ListNode* collisionPoint(ListNode* temp1, ListNode*temp2, int diff)
+    {
+        while(diff)
+        {
+            diff--;
+            temp2 = temp2->next;
+        }
+        while(temp1 != temp2)
+        {
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
+        return temp1;
+    }
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int len1 = 0, len2 = 0;
+        ListNode* temp1 = headA, *temp2 = headB;
+        while(temp1)
+        {
+            len1++;
+            temp1 = temp1->next;
+        }
+        while(temp2)
+        {
+            len2++;
+            temp2 = temp2->next;
+        }
+        int diff = abs(len1 - len2);
+
+        if(len1 < len2)
+        {
+            return collisionPoint(headA, headB, diff);
+        }
+        else
+        {
+            return collisionPoint(headB, headA, diff);
+        }
+        return NULL;
+    }
+};
