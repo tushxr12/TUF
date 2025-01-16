@@ -1,4 +1,4 @@
-
+//brute
 class Solution {
    private:
     ListNode* reverseLL(ListNode* head) {
